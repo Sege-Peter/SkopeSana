@@ -86,7 +86,7 @@
                     </div>
                     
                     <div class="step-actions">
-                        <a href="cart.html" button type="button" class="btn btn-outline" id="cancel-checkout">Cancel</button>
+                        <a href="cart.html"class="btn" id="cancel-checkout">Cancel</a>
                         <button type="button" class="btn" id="next-to-payment">Continue to Payment</button>
                     </div>
                 </div>
@@ -237,7 +237,551 @@
     </main>
     
     <!-- Footer (same as index.html) -->
+    <style>
+        /* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* Header & Title */
+h1, h2, h3 {
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.checkout-page .checkout-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Steps Progress */
+.checkout-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    color: #aaa;
+}
+
+.step.active {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.step span:first-child {
+    display: inline-block;
+    background: #e0e0e0;
+    color: #333;
+    border-radius: 50%;
+    padding: 8px 14px;
+    margin-bottom: 5px;
+}
+
+.step.active span:first-child {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Form Styles */
+.checkout-form {
+    width: 100%;
+}
+
+.checkout-step {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: #007bff;
+    border: 2px solid #007bff;
+}
+
+.btn-outline:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Payment Method */
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.payment-method {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-method.active {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+}
+
+.payment-method i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.payment-details {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+/* Order Summary */
+.order-summary {
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.summary-row.total {
+    font-weight: bold;
+    border-top: 1px solid #ccc;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+/* Order Confirmation */
+.order-confirmation {
+    text-align: center;
+}
+
+.confirmation-icon {
+    font-size: 4rem;
+    color: green;
+    margin-bottom: 15px;
+}
+
+.order-details {
+    text-align: left;
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    .checkout-steps {
+        flex-direction: column;
+    }
+
+    .step {
+        margin-bottom: 10px;
+    }
+
+    .payment-methods {
+        flex-direction: column;
+    }
+}
+
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const checkoutForm = document.getElementById('checkout-form');
+    const steps = document.querySelectorAll('.checkout-step');
+    const stepIndicators = document.querySelectorAll('.checkout-steps .step');
+    const paymentMethods = document.querySelectorAll('.payment-method');
+    const paymentDetails = document.querySelectorAll('.payment-details');
     
-    <script src="checkout.js"></script>
+    // Order data
+    let currentStep = 1;
+    let orderData = {
+        shipping: {},
+        payment: {},
+        cart: JSON.parse(localStorage.getItem('skopesana_cart')) || [],
+        totals: {
+            subtotal: 0,
+            delivery: 0,
+            serviceFee: 0,
+            total: 0
+        }
+    };
+
+    // Initialize checkout
+    initCheckout();
+
+    function initCheckout() {
+        // Load cart and calculate totals
+        calculateOrderTotals();
+        
+        // Set up event listeners
+        setupEventListeners();
+        
+        // Show current step
+        updateStepDisplay();
+    }
+
+    function calculateOrderTotals() {
+        // Calculate subtotal from cart
+        orderData.totals.subtotal = orderData.cart.reduce((total, item) => {
+            const product = getProductById(item.id);
+            return total + (product ? product.price * item.quantity : 0);
+        }, 0);
+        
+        // Calculate delivery (free for orders over 10000)
+        orderData.totals.delivery = orderData.totals.subtotal > 10000 ? 0 : 300;
+        
+        // Calculate service fee (200 for cash on delivery)
+        orderData.totals.serviceFee = orderData.payment.method === 'cash' ? 200 : 0;
+        
+        // Calculate total
+        orderData.totals.total = orderData.totals.subtotal + 
+                               orderData.totals.delivery + 
+                               orderData.totals.serviceFee;
+        
+        // Update UI
+        updateOrderSummary();
+    }
+
+    function getProductById(id) {
+        // In a real implementation, this would fetch from your products data
+        // For demo, we'll use a mock function
+        const products = [
+            { id: 1, name: "Samsung Galaxy A20", price: 12999 },
+            { id: 2, name: "Oraimo Power Bank", price: 3499 }
+            // ... other products
+        ];
+        return products.find(p => p.id == id);
+    }
+
+    function setupEventListeners() {
+        // Next button (step 1 -> step 2)
+        document.getElementById('next-to-payment').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (validateShippingStep()) {
+                saveShippingData();
+                currentStep = 2;
+                updateStepDisplay();
+            }
+        });
+        
+        // Back button (step 2 -> step 1)
+        document.getElementById('back-to-shipping').addEventListener('click', function(e) {
+            e.preventDefault();
+            currentStep = 1;
+            updateStepDisplay();
+        });
+        
+        // Payment method selection
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                const methodName = this.getAttribute('data-method');
+                selectPaymentMethod(methodName);
+            });
+        });
+        
+        // Place order button
+        document.getElementById('place-order').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (validatePaymentStep()) {
+                savePaymentData();
+                processOrder();
+            }
+        });
+        
+        // Cancel checkout
+        document.getElementById('cancel-checkout').addEventListener('click', function() {
+            if (confirm('Are you sure you want to cancel your order?')) {
+                window.location.href = 'cart.html';
+            }
+        });
+    }
+
+    function validateShippingStep() {
+        const requiredFields = ['full-name', 'email', 'phone', 'address', 'city', 'county'];
+        let isValid = true;
+        
+        requiredFields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (!field.value.trim()) {
+                field.classList.add('error');
+                isValid = false;
+            } else {
+                field.classList.remove('error');
+            }
+            
+            // Special validation for email
+            if (fieldId === 'email' && field.value.trim()) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(field.value)) {
+                    field.classList.add('error');
+                    isValid = false;
+                }
+            }
+        });
+        
+        if (!isValid) {
+            showNotification('Please fill all required fields correctly');
+        }
+        
+        return isValid;
+    }
+
+    function saveShippingData() {
+        orderData.shipping = {
+            name: document.getElementById('full-name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            address: document.getElementById('address').value,
+            city: document.getElementById('city').value,
+            county: document.getElementById('county').value,
+            notes: document.getElementById('notes').value
+        };
+    }
+
+    function selectPaymentMethod(method) {
+        // Update selected payment method
+        orderData.payment.method = method;
+        
+        // Update UI
+        paymentMethods.forEach(m => m.classList.remove('active'));
+        document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('active');
+        
+        paymentDetails.forEach(d => d.style.display = 'none');
+        document.getElementById(`${method}-details`).style.display = 'block';
+        
+        // Recalculate totals (for cash on delivery fee)
+        calculateOrderTotals();
+    }
+
+    function validatePaymentStep() {
+        let isValid = true;
+        const method = orderData.payment.method;
+        
+        if (method === 'mpesa') {
+            const mpesaCode = document.getElementById('mpesa-code').value.trim();
+            if (!mpesaCode) {
+                document.getElementById('mpesa-code').classList.add('error');
+                isValid = false;
+            } else {
+                orderData.payment.mpesaCode = mpesaCode;
+            }
+        } 
+        else if (method === 'card') {
+            const cardFields = ['card-number', 'card-expiry', 'card-cvv', 'card-name'];
+            cardFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    isValid = false;
+                } else {
+                    field.classList.remove('error');
+                    orderData.payment[fieldId] = field.value;
+                }
+            });
+        }
+        
+        if (!isValid) {
+            showNotification('Please complete all required payment details');
+        }
+        
+        return isValid;
+    }
+
+    function savePaymentData() {
+        // For M-Pesa, we already saved the code in validatePaymentStep
+        if (orderData.payment.method === 'cash') {
+            orderData.payment.cashOnDelivery = true;
+        }
+    }
+
+    function processOrder() {
+        // Generate order number
+        const orderNumber = 'SKOPE-' + Math.floor(10000 + Math.random() * 90000);
+        orderData.orderNumber = orderNumber;
+        orderData.date = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        // In a real implementation, you would send this data to your backend
+        console.log('Order processed:', orderData);
+        
+        // Save order to localStorage (for demo purposes)
+        localStorage.setItem('skopesana_lastOrder', JSON.stringify(orderData));
+        
+        // Clear cart
+        localStorage.removeItem('skopesana_cart');
+        
+        // Update UI for confirmation step
+        document.getElementById('order-number').textContent = orderNumber;
+        document.getElementById('order-date').textContent = orderData.date;
+        document.getElementById('order-total').textContent = `KSh ${orderData.totals.total.toLocaleString()}`;
+        document.getElementById('order-payment').textContent = 
+            orderData.payment.method === 'mpesa' ? 'M-Pesa' : 
+            orderData.payment.method === 'cash' ? 'Cash on Delivery' : 'Credit/Debit Card';
+        document.getElementById('customer-email').textContent = orderData.shipping.email;
+        
+        // Go to confirmation step
+        currentStep = 3;
+        updateStepDisplay();
+    }
+
+    function updateStepDisplay() {
+        // Update step indicators
+        stepIndicators.forEach(step => {
+            const stepNum = parseInt(step.getAttribute('data-step'));
+            step.classList.toggle('active', stepNum === currentStep);
+            step.classList.toggle('completed', stepNum < currentStep);
+        });
+        
+        // Show current step content
+        steps.forEach(step => {
+            const stepNum = parseInt(step.id.split('-')[1]);
+            step.style.display = stepNum === currentStep ? 'block' : 'none';
+        });
+    }
+
+    function updateOrderSummary() {
+        document.getElementById('checkout-subtotal').textContent = 
+            `KSh ${orderData.totals.subtotal.toLocaleString()}`;
+        document.getElementById('checkout-delivery').textContent = 
+            orderData.totals.delivery === 0 ? 'FREE' : `KSh ${orderData.totals.delivery.toLocaleString()}`;
+        document.getElementById('checkout-fee').textContent = 
+            orderData.totals.serviceFee === 0 ? 'FREE' : `KSh ${orderData.totals.serviceFee.toLocaleString()}`;
+        document.getElementById('checkout-total').textContent = 
+            `KSh ${orderData.totals.total.toLocaleString()}`;
+        
+        // Update M-Pesa amount display
+        if (document.getElementById('mpesa-amount')) {
+            document.getElementById('mpesa-amount').textContent = 
+                `KSh ${orderData.totals.total.toLocaleString()}`;
+        }
+    }
+
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+
+    // Initialize payment method
+    selectPaymentMethod('mpesa');
+});
+    </script>
 </body>
 </html>
