@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | SkopeSana</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    
+    <main class="product-details container">
+        <div class="breadcrumbs">
+            <a href="index.html">Home</a> > 
+            <a href="#" id="product-category">Phones</a> > 
+            <span id="product-name">Product</span>
+        </div>
+        
+        <div class="product-container">
+            <div class="product-gallery">
+                <div class="main-image">
+                    <img id="product-image" src="images/placeholder.jpg" alt="Product Image">
+                </div>
+                <div class="thumbnails">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="product-info">
+                <h1 id="product-title">Product Title</h1>
+                <div class="rating">
+                    <div class="stars" id="product-rating">
+                        <!-- Filled by JavaScript -->
+                    </div>
+                    <span id="review-count">12 reviews</span>
+                </div>
+                
+                <div class="price-container">
+                    <span class="current-price" id="product-price">KSh 12,999</span>
+                    <span class="old-price" id="old-price">KSh 15,999</span>
+                    <span class="discount" id="discount">15% OFF</span>
+                </div>
+                
+                <div class="availability" id="availability">
+                    <i class="fas fa-check-circle"></i> In Stock (5 items)
+                </div>
+                
+                <div class="product-description">
+                    <h3>Description</h3>
+                    <p id="product-description">Product description goes here...</p>
+                </div>
+                
+                <div class="product-actions">
+                    <div class="quantity">
+                        <button class="qty-btn" id="decrease-qty">-</button>
+                        <input type="number" id="quantity" value="1" min="1">
+                        <button class="qty-btn" id="increase-qty">+</button>
+                    </div>
+                    <button class="btn add-to-cart" id="add-to-cart">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn btn-outline" id="buy-now">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+                
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>1 Year Warranty</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-truck"></i>
+                        <span>Free Delivery in Nairobi</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-undo"></i>
+                        <span>7-Day Returns</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="related-products">
+            <h2>You May Also Like</h2>
+            <div class="products-grid" id="related-products">
+                <!-- Filled by JavaScript -->
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer (same as index.html) -->
+    
+    <script src="product.js"></script>
+</body>
+</html>

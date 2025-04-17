@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phones | SkopeSana</title>
+  <style>
+    :root {
+      --primary: #0ea5e9;
+      --dark: #0f172a;
+      --success: #22c55e;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f5f9;
+    }
+
+    header {
+      background: var(--dark);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px 0;
+      background: #1e293b;
+      margin: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      padding: 8px 12px;
+      transition: background 0.3s;
+    }
+
+    nav ul li a.active,
+    nav ul li a:hover {
+      background: orange;
+      border-radius: 5px;
+    }
+
+    .cart-count {
+      background: red;
+      color: white;
+      font-size: 12px;
+      border-radius: 50%;
+      padding: 2px 8px;
+      margin-left: 5px;
+      vertical-align: top;
+    }
+
+    .product-section {
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product-card h3 {
+      margin: 15px 0 5px;
+    }
+
+    .product-card p {
+      margin: 0;
+      font-weight: bold;
+      color: #1e293b;
+    }
+
+    .btn {
+      margin-top: 10px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    img {
+    width: 100px;
+    margin: 0px;
+    }
+
+    .btn:hover {
+      background: #0284c7;
+    }
+
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--success);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+
+    .notification.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="SKOPE SANA LOGO-04.png" alt=""> 
+    <h1>SkopeSana - Smartphones <span class="cart-count">0</span></h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="phones.html" class="active">Phones</a></li>
+      <li><a href="laptops.html">Laptops</a></li>
+      <li><a href="tvs.html">TVs</a></li>
+      <li><a href="power.html">Power Solutions</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="product-section">
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="ipnone 13.jpg" alt="iPhone 13" />
+        <h3>iPhone 13</h3>
+        <p>Ksh 99,999</p>
+        <button class="btn">Buy Now</button>
+      </div>
+
+      <div class="product-card">
+        <img src="Galaxy S23 Ultra.jpg" alt="Samsung Galaxy S23" />
+        <h3>Samsung Galaxy S23</h3>
+        <p>Ksh 84,999</p>
+        <button class="btn">Buy Now</button>
+      </div>
+
+      <div class="product-card">
+        <img src="Redmi Note 12 Pro 5G.jpg" alt="Redmi Note 12" />
+        <h3>Redmi Note 12</h3>
+        <p>Ksh 23,499</p>
+        <button class="btn">Buy Now</button>
+      </div>
+
+      <div class="product-card">
+        <img src="TECNO Camon 20 Pro 5G - Dark Welkin.jpg" alt="Tecno Camon 20" />
+        <h3>Tecno Camon 20</h3>
+        <p>Ksh 20,999</p>
+        <button class="btn">Buy Now</button>
+      </div>
+      
+      <div class="product-card">
+        <img src="samsung.png" alt="Samsung" />
+        <h3>Samsung Refurbished</h3>
+        <p>Ksh 19,499</p>
+        <button class="btn">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="smartphones.png" alt="phones" />
+        <h3> Refurbished</h3>
+        <p>Ksh 19,499</p>
+        <button class="btn">Checkout</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const cartCount = document.querySelector('.cart-count');
+      const addToCartBtns = document.querySelectorAll('.btn');
+      let cartItems = 0;
+
+      addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+          cartItems++;
+          cartCount.textContent = cartItems;
+          showNotification('Item added to cart!');
+        });
+      });
+
+      function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.classList.add('show');
+        }, 10);
+
+        setTimeout(() => {
+          notification.classList.remove('show');
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 300);
+        }, 3000);
+      }
+    });
+  </script>
+
+</body>
+</html>
